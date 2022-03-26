@@ -28,71 +28,120 @@
           </div>
         </div>
       </div>
-      
+
       <div class="row">
         <!-- sidebar content -->
-        <div class="col-3">
-
-        <div class="row">
-          <div class="col-12 bg-light " id="searchResults">
-            
-              <h3>Search for a City</h3>
-            
+        <div class="col-3 col-sm-12 col-md-3">
+          <div class="row">
+            <div class="col-12">
+              <div class="" id="searchResults">
+                <h3>Search for a City</h3>
+              </div>
+            </div>
           </div>
-        </div>
 
-        <div class="row">
-          <div class="col-12">
-            <div class="input-group">
-              <input
-                class="form-control"
-                type="text"
-                id="enterCity"
-                placeholder="Enter city to view weather"
-              /><button type="button" id="searchBtn" class="btn btn-primary">
-                <i class="fas fa-search"></i>
-              </button>
+          <div class="row">
+            <div class="col-12">
+              <div class="input-group">
+                <input
+                  class="form-control"
+                  type="text"
+                  id="enterCity"
+                  placeholder="Enter city to view weather"
+                /><button type="button" id="searchBtn" class="btn btn-primary">
+                  <i class="fas fa-search"></i>
+                </button>
+              </div>
             </div>
           </div>
         </div>
-      </div>
         <!-- recent searches  -->
 
         <!-- header card, border stays,  but no local sotrage = no info > -->
-        <div class="row">
-          <div class="card" style="width: 18rem">
-            <div class="card-body">
-              <div class="col-9">
-                <h5 class="card-title">Card title</h5>
-                <h6 class="card-subtitle mb-2 text-muted">Card subtitle</h6>
-                <p class="card-text">
-                  Some quick example text to build on the card title and make up
-                  the bulk of the card's content.
-                </p>
-                <a href="#" class="card-link">Card link</a>
-                <a href="#" class="card-link">Another link</a>
+        <!-- second half page -->
+        <div class="col-9 col-sm-12 col-md-9">
+          <div class="row">
+            <div class="col-12">
+              <div class="card mt-2 mb-5">
+                <div class="card-body">
+                  <h5 class="card-title">Card title</h5>
+                  <h6 class="card-subtitle mb-2 text-muted">Card subtitle</h6>
+                  <p class="card-text">
+                    Some quick example text to build on the card title and make
+                    up the bulk of the card's content.
+                  </p>
+                  <a href="#" class="card-link">Card link</a>
+                  <a href="#" class="card-link">Another link</a>
+                </div>
               </div>
             </div>
+          </div>
+          <div class="row">
+            <div class="col">
+              <div
+                class="card  pt-3 mb-3 bg-primary text-light">
+                <div class="card-body">
+                  <h5>${currDate}</h5>
+                  <p>${iconURL}</p>
+                  <p>Temp: ${cityInfo.temp} °F</p>
+                  <p>Humidity: ${cityInfo.humidity}\%</p>
+                </div>
+              </div>
+            </div>
+
+            <div class="col">
+              <div
+                class="card  pt-3 mb-3 bg-primary text-light">
+                <div class="card-body">
+                  <h5>${currDate}</h5>
+                  <p>${iconURL}</p>
+                  <p>Temp: ${cityInfo.temp} °F</p>
+                  <p>Humidity: ${cityInfo.humidity}\%</p>
+                </div>
+              </div>
+            </div>
+
+            <div class="col">
+              <div
+                class="card  pt-3 mb-3 bg-primary text-light">
+                <div class="card-body">
+                  <h5>${currDate}</h5>
+                  <p>${iconURL}</p>
+                  <p>Temp: ${cityInfo.temp} °F</p>
+                  <p>Humidity: ${cityInfo.humidity}\%</p>
+                </div>
+              </div>
+            </div>
+
+            <div class="col">
+              <div
+                class="card  pt-3 mb-3 bg-primary text-light">
+                <div class="card-body">
+                  <h5>${currDate}</h5>
+                  <p>${iconURL}</p>
+                  <p>Temp: ${cityInfo.temp} °F</p>
+                  <p>Humidity: ${cityInfo.humidity}\%</p>
+                </div>
+              </div>
+            </div>
+
+            <div class="col">
+              <div
+                class="card  pt-3 mb-3 bg-primary text-light">
+                <div class="card-body">
+                  <h5>${currDate}</h5>
+                  <p>${iconURL}</p>
+                  <p>Temp: ${cityInfo.temp} °F</p>
+                  <p>Humidity: ${cityInfo.humidity}\%</p>
+                </div>
+              </div>
+            </div>
+
+            
           </div>
         </div>
 
         <!-- 5 day forecast cards need local storage to show cvards -->
-        <div class="row">
-          <div class="card" style="width: 18rem">
-            <div class="card-body">
-              <div class="col-9">
-                <h5 class="card-title">Card title</h5>
-                <h6 class="card-subtitle mb-2 text-muted">Card subtitle</h6>
-                <p class="card-text">
-                  Some quick example text to build on the card title and make up
-                  the bulk of the card's content.
-                </p>
-                <a href="#" class="card-link">Card link</a>
-                <a href="#" class="card-link">Another link</a>
-              </div>
-            </div>
-          </div>
-        </div>
       </div>
     </div>
   </body>
