@@ -23,19 +23,16 @@ function displayRecentSearch(params) {
 }
 displayRecentSearch();
 
-
-
 // make a new function that only handkles what line 22 does then bind to searchclick
 // gets the city you typed in
-function getCitySearch(){
-   var city = document.querySelector("#enterCity").value;
-   weatherCall(city);
+function getCitySearch() {
+  var city = document.querySelector("#enterCity").value;
+  weatherCall(city);
 }
-// calls for the weather 
+// calls for the weather
 function weatherCall(cityName) {
-
   var queryURL =
-    "http://api.openweathermap.org/geo/1.0/direct?q=" +
+    "https://api.openweathermap.org/geo/1.0/direct?q=" +
     cityName +
     "&units=imperial&appid=" +
     APIKey;
@@ -66,8 +63,7 @@ function weatherCall(cityName) {
 }
 // gets future weather
 function futureWeather(lat, lon) {
-
-  var fiveDay = `http://api.openweathermap.org/data/2.5/onecall?lat=${lat}&lon=${lon}&units=imperial&appid=${APIKey}&cnt=5`;
+  var fiveDay = `https://api.openweathermap.org/data/2.5/onecall?lat=${lat}&lon=${lon}&units=imperial&appid=${APIKey}&cnt=5`;
 
   fetch(fiveDay)
     .then(function (response) {
@@ -82,13 +78,10 @@ function futureWeather(lat, lon) {
     });
 }
 
-
 // puts weather info on future cards
 function cardDisplay(dailyArray) {
   for (var i = 0; i < 5; i++) {
     console.log(dailyArray[i]);
-    
-
 
     var dateString = moment.unix(dailyArray[i].dt).format("MM/DD/YYYY");
 
@@ -115,15 +108,12 @@ function cardDisplay(dailyArray) {
       .eq(4)
       .text(`Humidity: ${dayHumidity} %`);
   }
-  
 }
 
 //puts current weather on main card
 function currentWeather(currentObject) {
-
-  
   var dateString = moment.unix(currentObject.current.dt).format("MM/DD/YYYY");
-console.log(currentObject);
+  console.log(currentObject);
   var dayIcon = currentObject.current.weather[0].icon;
 
   var dayTemp = currentObject.current.temp;
@@ -147,19 +137,15 @@ console.log(currentObject);
     .children()
     .eq(4)
     .text(`Humidity: ${dayHumidity} %`);
-    putMainCardContent.children().children().eq(5).text("UV Index: ");
-  putMainCardContent
-    .children()
-    .children()
-    .eq(6)
-    .text(` ${uvIndex}`);
+  putMainCardContent.children().children().eq(5).text("UV Index: ");
+  putMainCardContent.children().children().eq(6).text(` ${uvIndex}`);
 
-// determines uvi color
+  // determines uvi color
   if (uvIndex <= 2) {
     putMainCardContent
       .children()
       .children()
-      .eq(6) 
+      .eq(6)
       .css("background-color", "#3EA72D")
       .css("color", "white");
   } else if (uvIndex <= 5) {
@@ -192,4 +178,3 @@ console.log(currentObject);
       .css("color", "white");
   }
 }
-
