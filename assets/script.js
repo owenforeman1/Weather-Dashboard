@@ -1,33 +1,28 @@
-var APIKey = "bc4cde8c4ce64536e7377d99166a9442";
+var APIKey = "11d51d57f744cfdc856d2f6021764bca";
 
 var citySearch = document.getElementById("searchBtn");
 if (citySearch.addEventListener) {
   citySearch.addEventListener("click", weatherCall, false);
 }
 
-
 function displayRecentSearch(params) {
-    var cityArray = JSON.parse(localStorage.getItem("recentSearch"));
-    $("#recentSearches").empty();
-    // get recent search element, remove all buttons inside
-    for (var i = 0; i < cityArray.length; i++) {
-      var recentSearchBtn = document.createElement("button");
-      recentSearchBtn.classList.add("btn", "btn-primary", "btn-block");
-      recentSearchBtn.innerText = cityArray[i];
-      document.getElementById("recentSearches").appendChild(recentSearchBtn);
-    }
-    
-    
-  };
+  var cityArray = JSON.parse(localStorage.getItem("recentSearch"));
+  $("#recentSearches").empty();
+  // get recent search element, remove all buttons inside
+  for (var i = 0; i < cityArray.length; i++) {
+    var recentSearchBtn = document.createElement("button");
+    recentSearchBtn.classList.add("btn", "btn-primary", "btn-block");
+    recentSearchBtn.innerText = cityArray[i];
+    document.getElementById("recentSearches").appendChild(recentSearchBtn);
+  }
+}
 displayRecentSearch();
-
-
 
 function weatherCall() {
   var city = document.querySelector("#enterCity").value;
 
   var queryURL =
-    "https://api.openweathermap.org/geo/1.0/direct?q=" +
+    "http://api.openweathermap.org/geo/1.0/direct?q=" +
     city +
     "&units=imperial&appid=" +
     APIKey;
@@ -47,25 +42,25 @@ function weatherCall() {
       futureWeather(lat, lon);
     });
 
-    console.log(city);
-    var recentSearchArray = JSON.parse(localStorage.getItem("recentSearch"));
-    if (recentSearchArray === null) {
-      recentSearchArray = [];
-    }
-    recentSearchArray.push(city);
-    console.log(recentSearchArray);
-    var uniqueArray = recentSearchArray.filter(function (item, pos) {
-       return recentSearchArray.indexOf(item) == pos;
-     });
-    localStorage.setItem("recentSearch", JSON.stringify(uniqueArray) )
-    
-displayRecentSearch();
+  console.log(city);
+  var recentSearchArray = JSON.parse(localStorage.getItem("recentSearch"));
+  if (recentSearchArray === null) {
+    recentSearchArray = [];
+  }
+  recentSearchArray.push(city);
+  console.log(recentSearchArray);
+  var uniqueArray = recentSearchArray.filter(function (item, pos) {
+    return recentSearchArray.indexOf(item) == pos;
+  });
+  localStorage.setItem("recentSearch", JSON.stringify(uniqueArray));
+
+  displayRecentSearch();
 }
 
 function futureWeather(lat, lon) {
   var city = document.querySelector("#enterCity").value;
 
-  var fiveDay = `https://api.openweathermap.org/data/2.5/onecall?lat=${lat}&lon=${lon}&units=imperial&appid=${APIKey}&cnt=5`;
+  var fiveDay = `http://api.openweathermap.org/data/2.5/onecall?lat=${lat}&lon=${lon}&units=imperial&appid=${APIKey}&cnt=5`;
 
   fetch(fiveDay)
     .then(function (response) {
@@ -80,44 +75,50 @@ function futureWeather(lat, lon) {
     });
 }
 
+
+// puts weather info on future cards
 function cardDisplay(dailyArray) {
-  
   for (var i = 0; i < 5; i++) {
     console.log(dailyArray[i]);
+    
+
 
     var dateString = moment.unix(dailyArray[i].dt).format("MM/DD/YYYY");
-    
-    var dayIcon;
 
-    var dayTemp = dailyArray[i].temp.day
-   
+    var dayIcon = dailyArray[i].weather[0].icon;
+
+    var iconURL = `http://openweathermap.org/img/wn/${dayIcon}.png`;
+    console.log(iconURL);
+
+    var dayTemp = dailyArray[i].temp.day;
+
     var dayWind = dailyArray[i].wind_speed;
-    
+
     var dayHumidity = dailyArray[i].humidity;
-    
-    var putCardContent = $("#card" + i)
-    
+
+    var putCardContent = $("#card" + i);
 
     putCardContent.children().children().eq(0).text(dateString);
-    // putCardContent.children().children().eq(1).
+    putCardContent.children().children().eq(1)[0].src = iconURL;
     putCardContent.children().children().eq(2).text(`Temp: ${dayTemp}  °F`);
     putCardContent.children().children().eq(3).text(`Wind: ${dayWind} Mph`);
-    putCardContent.children().children().eq(4).text(`Humidity: ${dayHumidity} %`);
-    
-    
+    putCardContent
+      .children()
+      .children()
+      .eq(4)
+      .text(`Humidity: ${dayHumidity} %`);
   }
-  console.log(dailyArray);
+  
 }
 
 function currentWeather(currentObject) {
-  console.log("-------");
-console.log(currentObject);
-  var dateString = moment.unix(currentObject.current.dt).format("MM/DD/YYYY");
 
-  var dayIcon;
+  
+  var dateString = moment.unix(currentObject.current.dt).format("MM/DD/YYYY");
+console.log(currentObject);
+  var dayIcon = currentObject.current.weather[0].icon;
 
   var dayTemp = currentObject.current.temp;
-
 
   var dayWind = currentObject.current.wind_speed;
 
@@ -125,34 +126,88 @@ console.log(currentObject);
 
   var uvIndex = currentObject.current.uvi;
 
-  var putMainCardContent = $("#cardMain")
+  var putMainCardContent = $("#cardMain");
 
-putMainCardContent.children().children().eq(0).text(dateString)
-putMainCardContent.children().children().eq(1).text(dayIcon);
-putMainCardContent.children().children().eq(2).text(`Temp: ${dayTemp} °F`);
-putMainCardContent.children().children().eq(3).text(`Wind: ${dayWind} Mph`);
-putMainCardContent.children().children().eq(4).text(`Humidity: ${dayHumidity} %`);
-putMainCardContent.children().children().eq(5).children().eq(0).text(` ${uvIndex}`)
+  putMainCardContent.children().children().eq(0).text(dateString);
+  var iconURL = `http://openweathermap.org/img/wn/${dayIcon}.png`;
+  console.log(iconURL);
+  putMainCardContent.children().children().eq(1)[0].src = iconURL;
+  putMainCardContent.children().children().eq(2).text(`Temp: ${dayTemp} °F`);
+  putMainCardContent.children().children().eq(3).text(`Wind: ${dayWind} Mph`);
+  putMainCardContent
+    .children()
+    .children()
+    .eq(4)
+    .text(`Humidity: ${dayHumidity} %`);
+  putMainCardContent
+    .children()
+    .children()
+    .eq(5)
+    .children()
+    .eq(0)
+    .text(` ${uvIndex}`);
 
+  // to stop from entering nothing
+  // if (username) {
+  //     getUserRepos(username);
 
-if (uvIndex <= 2 ) {
-  putMainCardContent.children().children().eq(5).children().eq(0).css("background-color", "#3EA72D").css("color", "white");
-} else if (uvIndex <= 5) {
-   putMainCardContent.children().children().eq(5).children().eq(0).css("background-color","#FFF300").css("color", "black");
-}else if (uvIndex <= 7) {
-   putMainCardContent.children().children().eq(5).children().eq(0).css("background-color", "#F18B00").css("color", "black");
-}else if (uvIndex <= 10) {
-   putMainCardContent.children().children().eq(5).children().eq(0).css("background-color", "#E53210").css("color", "white")
-}else {
-  putMainCardContent.children().children().eq(5).children().eq(0).css("background-color", "#B567A4").css("color", "white")
+  //     repoContainerEl.textContent = '';
+  //     nameInputEl.value = '';
+  //   } else {
+  //     alert('Please enter a GitHub username');
+  //   }
+  // };
+
+  if (uvIndex <= 2) {
+    putMainCardContent
+      .children()
+      .children()
+      .eq(5)
+      .children()
+      .eq(0)
+      .css("background-color", "#3EA72D")
+      .css("color", "white");
+  } else if (uvIndex <= 5) {
+    putMainCardContent
+      .children()
+      .children()
+      .eq(5)
+      .children()
+      .eq(0)
+      .css("background-color", "#FFF300")
+      .css("color", "black");
+  } else if (uvIndex <= 7) {
+    putMainCardContent
+      .children()
+      .children()
+      .eq(5)
+      .children()
+      .eq(0)
+      .css("background-color", "#F18B00")
+      .css("color", "black");
+  } else if (uvIndex <= 10) {
+    putMainCardContent
+      .children()
+      .children()
+      .eq(5)
+      .children()
+      .eq(0)
+      .css("background-color", "#E53210")
+      .css("color", "white");
+  } else {
+    putMainCardContent
+      .children()
+      .children()
+      .eq(5)
+      .children()
+      .eq(0)
+      .css("background-color", "#B567A4")
+      .css("color", "white");
+  }
 }
-
-;}
-
 
 // function to have recent searches/local storage
 // function to display info on cards
-
 
 // https:api.openweathermap.org/data/2.5/weather?lat={lat}&lon={lon}&appid={API key}
 // <p>Temperature: ${cityWeatherResponse.main.temp} °F</p>
