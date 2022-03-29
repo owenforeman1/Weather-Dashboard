@@ -1,10 +1,11 @@
+// apikey
 var APIKey = "11d51d57f744cfdc856d2f6021764bca";
-
+// search button
 var citySearch = document.getElementById("searchBtn");
 if (citySearch.addEventListener) {
-  citySearch.addEventListener("click", weatherCall, false);
+  citySearch.addEventListener("click", getCitySearch, false);
 }
-
+// displays recent searches
 function displayRecentSearch(params) {
   var cityArray = JSON.parse(localStorage.getItem("recentSearch"));
   $("#recentSearches").empty();
@@ -13,17 +14,29 @@ function displayRecentSearch(params) {
     var recentSearchBtn = document.createElement("button");
     recentSearchBtn.classList.add("btn", "btn-primary", "btn-block");
     recentSearchBtn.innerText = cityArray[i];
+    recentSearchBtn.onclick = function () {
+      weatherCall(this.innerText);
+      return false;
+    };
     document.getElementById("recentSearches").appendChild(recentSearchBtn);
   }
 }
 displayRecentSearch();
 
-function weatherCall() {
-  var city = document.querySelector("#enterCity").value;
+
+
+// make a new function that only handkles what line 22 does then bind to searchclick
+// gets the city you typed in
+function getCitySearch(){
+   var city = document.querySelector("#enterCity").value;
+   weatherCall(city);
+}
+// calls for the weather 
+function weatherCall(cityName) {
 
   var queryURL =
     "http://api.openweathermap.org/geo/1.0/direct?q=" +
-    city +
+    cityName +
     "&units=imperial&appid=" +
     APIKey;
 
@@ -34,20 +47,15 @@ function weatherCall() {
     .then(function (data) {
       var lat = data[0].lat;
       var lon = data[0].lon;
-
-      // var temp = data.main.temp;
-      // var humidity = data.main.humidity;
-      // var wind = data.wind.speed;
-      
       futureWeather(lat, lon);
     });
 
-  console.log(city);
+  console.log(cityName);
   var recentSearchArray = JSON.parse(localStorage.getItem("recentSearch"));
   if (recentSearchArray === null) {
     recentSearchArray = [];
   }
-  recentSearchArray.push(city);
+  recentSearchArray.push(cityName);
   console.log(recentSearchArray);
   var uniqueArray = recentSearchArray.filter(function (item, pos) {
     return recentSearchArray.indexOf(item) == pos;
@@ -56,9 +64,8 @@ function weatherCall() {
 
   displayRecentSearch();
 }
-
+// gets future weather
 function futureWeather(lat, lon) {
-  var city = document.querySelector("#enterCity").value;
 
   var fiveDay = `http://api.openweathermap.org/data/2.5/onecall?lat=${lat}&lon=${lon}&units=imperial&appid=${APIKey}&cnt=5`;
 
@@ -111,6 +118,7 @@ function cardDisplay(dailyArray) {
   
 }
 
+//puts current weather on main card
 function currentWeather(currentObject) {
 
   
@@ -139,77 +147,49 @@ console.log(currentObject);
     .children()
     .eq(4)
     .text(`Humidity: ${dayHumidity} %`);
+    putMainCardContent.children().children().eq(5).text("UV Index: ");
   putMainCardContent
     .children()
     .children()
-    .eq(5)
-    .children()
-    .eq(0)
+    .eq(6)
     .text(` ${uvIndex}`);
 
-  // to stop from entering nothing
-  // if (username) {
-  //     getUserRepos(username);
-
-  //     repoContainerEl.textContent = '';
-  //     nameInputEl.value = '';
-  //   } else {
-  //     alert('Please enter a GitHub username');
-  //   }
-  // };
-
+// determines uvi color
   if (uvIndex <= 2) {
     putMainCardContent
       .children()
       .children()
-      .eq(5)
-      .children()
-      .eq(0)
+      .eq(6) 
       .css("background-color", "#3EA72D")
       .css("color", "white");
   } else if (uvIndex <= 5) {
     putMainCardContent
       .children()
       .children()
-      .eq(5)
-      .children()
-      .eq(0)
+      .eq(6)
       .css("background-color", "#FFF300")
       .css("color", "black");
   } else if (uvIndex <= 7) {
     putMainCardContent
       .children()
       .children()
-      .eq(5)
-      .children()
-      .eq(0)
+      .eq(6)
       .css("background-color", "#F18B00")
       .css("color", "black");
   } else if (uvIndex <= 10) {
     putMainCardContent
       .children()
       .children()
-      .eq(5)
-      .children()
-      .eq(0)
+      .eq(6)
       .css("background-color", "#E53210")
       .css("color", "white");
   } else {
     putMainCardContent
       .children()
       .children()
-      .eq(5)
-      .children()
-      .eq(0)
+      .eq(6)
       .css("background-color", "#B567A4")
       .css("color", "white");
   }
 }
 
-// function to have recent searches/local storage
-// function to display info on cards
-
-// https:api.openweathermap.org/data/2.5/weather?lat={lat}&lon={lon}&appid={API key}
-// <p>Temperature: ${cityWeatherResponse.main.temp} °F</p>
-
-//api.openweathermap.org/data/2.5/onecall?lat={lat}&lon={lon}&exclude={part}&appid={API key}

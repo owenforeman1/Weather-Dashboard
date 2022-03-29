@@ -17,16 +17,7 @@ If your README is long, add a table of contents to make it easy for users to fin
 Open the index.html in a browser and you can then search any cities weather.
 
 ## Usage
-
-Provide instructions and examples for use. Include screenshots as needed.
-
-To add a screenshot, create an `assets/images` folder in your repository and upload your screenshot to it. Then, using the relative filepath, add it to your README using the following syntax:
-
-    ```md
-    ![alt text](assets/images/screenshot.png)
-    ```
-
-If you used any third-party assets that require attribution, list the creators with links to their primary web presence in this section.
+![](./assets/images/screencapture-file-C-Users-owen-Desktop-Bootcamp-Homework-Weather-Dashboard-index-html-2022-03-29-18_45_06.png)
 
 
 
